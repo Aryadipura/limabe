@@ -1,2 +1,0 @@
-# limabe
-Kelompok B5
