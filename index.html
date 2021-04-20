@@ -35,6 +35,26 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      $.get('data.json', function(obj){
+        var str="<table class='table'>";
+        str+="<thead class='thead-dark'><tr><th>No</th><th>Kategori</th><th>Judul Headline</th><th>Waktu Publish</th><th>Waktu Scrapping</th></tr></thead>";
+        $.each(obj,function(n,data){
+          str+="<tbody><tr><td>"+(n+1)+"</td>";
+          str+="<td>"+data.category+"</td>";
+          str+="<td>"+data.title+"</td>";
+          str+="<td>"+data.publish+"</td>";
+          str+="<td>"+data.date+"</td></tr></tbody>";
+        });
+        str+="</table>";
+        $('#headline_json').html(str);
+      });
+    });
+  </script>
+
 </head>
 
 <body>
@@ -52,6 +72,7 @@
           <li class="active"><a href="index.html">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#team">Team</a></li>
+          <li><a href="#scrabing" >Scrabing</a></li>
           <li><a href="#contact" >Contact</a></li>
 
         </ul>
@@ -310,6 +331,23 @@
       </div>
     </section><!-- End Team Section -->
 
+    <!-- ======= About Section ======= -->
+    <section id="scrabing" class="scrabing">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Scrabing</h2>
+          <p><a href="https://republika.co.id/" target="v_blank">republika.co.id</a></p>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-12">
+            <div id="headline_json"></div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
 
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact section-bg">
