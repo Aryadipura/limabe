@@ -39,7 +39,7 @@
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script type="text/javascript">
     $(function(){
-      $.get('scrabing/data.json', function(obj){
+      $.get('data.json', function(obj){
         var str="<table class='table'>";
         str+="<thead class='thead-dark'><tr><th>No</th><th>Kategori</th><th>Judul Headline</th><th>Waktu Publish</th><th>Waktu Scrapping</th></tr></thead>";
         $.each(obj,function(n,data){
