@@ -60,7 +60,7 @@
         str+="<thead class='thead-dark'><tr><th>No</th><th>Judul</th><th>Penulis</th><th>Editor</th><th>Waktu Publish</th><th>Thumnail</th></tr></thead>";
         $.each(obj,function(n,data){
           str+="<tbody><tr><td>"+(n+1)+"</td>";
-          str+="<td>"+data.Judul+"</td>";
+          str+="<td><a target='v_blank' href="+ data.Link +">"+data.Judul+"</td>";
           str+="<td>"+data.Penulis+"</td>";
           str+="<td>"+data.Editor+"</td>";
           str+="<td>"+data.Publish+"</td>";

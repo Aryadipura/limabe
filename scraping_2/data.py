@@ -23,10 +23,11 @@ while i<=120:
             produklist.append(
                 {
                     "Judul": produk.text.split("\n")[0],
+                    "Link" : produk.find_element_by_tag_name('a').get_attribute('href'),
                     "Penulis": produk.text.split("\n")[2],
-                    "Editor": produk.text.split("\n")[4],
-                    "Publish": produk.text.split("\n")[6],
-                    "Image": img.get_attribute("src")
+                    "Editor": produk.text.split("\n")[4],                    
+                    "Publish" : produk.find_element_by_xpath("//*[@class='meta-post']//a").text,
+                    "Image": img.get_attribute("src")                
                 }
             )
     try:
