@@ -36,6 +36,7 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script type="text/javascript">
     $(function(){
@@ -91,6 +92,7 @@
           <li><a href="#team">Team</a></li>
           <li><a href="#scrabing" >Scrabing</a></li>
           <li><a href="#scraping2" >Scraping 2</a></li>
+          <li><a href="#visdata" >Visualisasi Data</a></li>
           <li><a href="#contact" >Contact</a></li>
 
         </ul>
@@ -385,6 +387,36 @@
       </div>
     </section><!-- End Scraping  Section -->
 
+    <!-- ======= Visualisasi Data  Section ======= -->
+    <section id="visdata" class="scrabing">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Visualisasi Data</h2>
+          <p><a href="https://myanimelist.net/topanime.php" target="v_blank">MyAnimeList.net</a></p>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+            <canvas id="columnChart" width="100%"></canvas>
+          </div>
+
+          <div class="col-lg-6">
+            <canvas id="oilChart" width="50%"></canvas>
+          </div>
+
+          <div class="col-lg-6">
+            <canvas id="line" width="100%"></canvas>
+          </div>
+
+          <div class="col-lg-6">
+            <canvas id="barChart" width="100%"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Visualisasi Data  Section -->
+
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact section-bg">
       <div class="container" data-aos="fade-up">
@@ -520,6 +552,211 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  <script>
+
+  var resp = jQuery.parseJSON(
+          jQuery.ajax({
+                  url: "hasilscraping.json", 
+                  async: false,
+                  dataType: 'json'
+          }).responseText
+  )
+
+  var data = resp; 
+  var judul    = [];
+  var rating       = [];
+
+  for (var i = 0; i < 5; i++) {
+          judul.push(data[i].Judul);
+          rating.push(data[i].Rating);
+  }
+
+  var ctx = document.getElementById('barChart');
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: judul,
+          datasets: [{
+              label: '# Rating Film',
+              data: rating,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+            indexAxis: 'y',
+
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+
+  // =============================================================================================================
+
+
+  var chartColors = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    blue: 'rgb(54, 162, 235)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(231,233,237)'
+  };
+
+  var randomScalingFactor = function() {
+    return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
+  }
+  var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var config = {
+    type: 'line',
+    data: {
+      labels: judul,
+      datasets: [{
+        label: "Rating Film",
+        backgroundColor: chartColors.red,
+        borderColor: chartColors.red,
+        data: rating,
+        fill: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      title: {
+        display: true,
+        text: 'Chart.js Line Chart'
+      },
+      tooltips: {
+        mode: 'label',
+      },
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Month'
+          }
+        }],
+        yAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Value'
+          }
+        }]
+      }
+    }
+  };
+
+
+  var ctx = document.getElementById("line").getContext("2d");
+  window.myLine = new Chart(ctx, config);
+
+  // =============================================================================================================
+
+  var oilCanvas = document.getElementById("oilChart");
+
+  judul.sort((a, b) => a > b ? -1 : 1);
+  rating.sort((a, b) => a > b ? -1 : 1);
+
+  var oilData = {
+      labels: judul,
+      datasets: [
+          {
+              data: rating,
+              backgroundColor: [
+                  "#FF6384",
+                  "#63FF84",
+                  "#84FF63",
+                  "#8463FF",
+                  "#6384FF"
+              ]
+          }]
+  };
+
+  var pieChart = new Chart(oilCanvas, {
+    type: 'pie',
+    data: oilData
+  });
+
+  // =============================================================================================================
+
+  var resp = jQuery.parseJSON(
+          jQuery.ajax({
+                  url: "hasilscraping.json", 
+                  async: false,
+                  dataType: 'json'
+          }).responseText
+  )
+
+  var data = resp; 
+  var judul    = [];
+  var rating       = [];
+
+  for (var i = 0; i < 5; i++) {
+          judul.push(data[i].Judul);
+          rating.push(data[i].Rating);
+  }
+
+  var ctx = document.getElementById('columnChart');
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: judul,
+          datasets: [{
+              label: '# Rating Film',
+              data: rating,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+  </script>
 </body>
 
 </html>
